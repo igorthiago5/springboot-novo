@@ -2,12 +2,17 @@ package com.Igorthiago.CursoMC.resource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Igorthiago.CursoMC.domain.Categoria;
+import com.Igorthiago.CursoMC.service.CategoriaService;
 
 //classe resposável pelo componentes Rest
 
@@ -15,15 +20,16 @@ import com.Igorthiago.CursoMC.domain.Categoria;
 @RequestMapping(value="/categorias")
 public class CategoriaResource {
 	
-	@RequestMapping(method=RequestMethod.GET)
-	public List<Categoria> listar() {
-		Categoria c1 = new Categoria(1,"informatica");
-		Categoria c2 = new Categoria(2,"wscritorio");
+	@Autowired
+	private CategoriaService service;
+	@RequestMapping(value="/{id}",method=RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id) {
 		
-		List<Categoria> l = new ArrayList<>();
-		l.add(c1);
-		l.add(c2);
-		return l;
+		Categoria obj = service.buscar(id);
+		return ResponseEntity.ok().body(obj);
+		
+		
+
 		
 	}
 	
